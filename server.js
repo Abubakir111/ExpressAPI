@@ -1,16 +1,13 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-// Простое API, которое возвращает JSON
-app.get('/api/data', (req, res) => {
-  res.json({
-    message: 'Hello from CheatFusion API!',
-    success: true
-  });
+// Простой маршрут для проверки
+app.get('/', (req, res) => {
+  res.send('Hello, world!'); // Или верните HTML-контент
 });
 
-// Запуск сервера
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Запускаем сервер
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
