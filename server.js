@@ -16,7 +16,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 app.get('/', (req, res) => {
-  res.send('Тестовый  текст');
+  const products = [
+    { id: 1, name: 'Product A', price: 100.0 },
+    { id: 2, name: 'Product B', price: 150.0 },
+    { id: 3, name: 'Product C', price: 200.0 }
+  ];
+
+  res.json(products); // Отправка массива объектов в ответ
 });
 
 // Маршрут для загрузки изображений
