@@ -15,6 +15,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+app.get('/', (req, res) => {
+  res.send('Тестовый  текст');
+});
 
 // Маршрут для загрузки изображений
 app.post('/productImages', upload.single('image'), (req, res) => {
