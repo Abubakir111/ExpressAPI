@@ -17,9 +17,24 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.get('/', (req, res) => {
   const products = [
-    { id: 1, name: 'Product A', price: 100.0 },
-    { id: 2, name: 'Product B', price: 150.0 },
-    { id: 3, name: 'Product C', price: 200.0 }
+    {
+      id: 1,
+      name: 'Product A',
+      price: 100.0,
+      img: 'https://res.cloudinary.com/bakir/image/upload/v1730264027/photo_1_2024-10-20_21-05-20_oqw6bs.jpg'
+    },
+    {
+      id: 2,
+      name: 'Product B',
+      price: 150.0,
+      img: 'https://res.cloudinary.com/bakir/image/upload/v1730264027/photo_1_2024-10-20_21-05-20_oqw6bs.jpg'
+    },
+    {
+      id: 3,
+      name: 'Product C',
+      price: 200.0,
+      img: 'https://res.cloudinary.com/bakir/image/upload/v1730264027/photo_1_2024-10-20_21-05-20_oqw6bs.jpg'
+    }
   ];
 
   res.json(products); // Отправка массива объектов в ответ
