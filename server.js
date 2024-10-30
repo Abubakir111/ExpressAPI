@@ -1,26 +1,46 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
 const app = express();
+
+// Настраиваем хранилище для загружаемых файлов
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'productImages'); // Указываем, куда сохранять файлы
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Создаем уникальное имя файла
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Маршрут для загрузки изображений
+app.post('/productImages', upload.single('image'), (req, res) => {
+  res.json({ message: 'Изображение загружено!', filePath: `/productImages/${req.file.filename}` });
+});
+// Простой маршрут админ-панели
+app.get('/admin', (req, res) => {
+  res.send(
+    '<h1>Админ панель</h1><form action="/productImages" method="POST" enctype="multipart/form-data"><input type="file" name="image"/><button type="submit">Загрузить</button></form>'
+  );
+});
+app.get('/images', (req, res) => {
+  // Пример списка изображений (имитируем базу данных или динамическое получение файлов)
+  const images = [
+    { id: 1, filePath: '/productImages/image1.jpg' },
+    { id: 2, filePath: '/productImages/image2.jpg' }
+  ];
+
+  // Возвращаем массив с путями к изображениям
+  res.json(images);
+});
+// Настройка статической папки для доступа к загруженным файлам
+app.use('/productImages', express.static('productImages'));
+
 const PORT = process.env.PORT || 3000;
 
-// Middleware для парсинга JSON
-app.use(express.json());
-
-// Обработчик для GET-запроса на корневой маршрут
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
-// Обработчик для GET-запроса на /data
-app.get('/data', (req, res) => {
-  const dataArray = [
-    { id: 1, name: 'Тестовый запрос на удалённом сервере API' },
-    { id: 2, name: 'Еще один тестовый запросs' }
-    // Добавьте другие элементы, если нужно
-  ];
-  res.json(dataArray); // Отправляем массив данных в формате JSON
-});
-
-// Запускаем сервер
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
