@@ -1,9 +1,11 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
-
+// Используйте CORS с настройками по умолчанию
+app.use(cors());
 // Настраиваем хранилище для загружаемых файлов
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
